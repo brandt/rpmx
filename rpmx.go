@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/sassoftware/go-rpmutils"
 )
@@ -52,26 +54,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Use nevra.Name if user didn't specify a destination directory
+	// Default to directory with same name as RPM w/o the .src.rpm/.rpm extension
 	if destDir == "" {
-		nevra, err := rpm.Header.GetNEVRA()
-		if err != nil {
-			fmt.Printf("Error getting NEVRA from header: %s\n", err)
-			os.Exit(1)
-		}
-
-		if nevra.Name == "" {
-			fmt.Println("Error: Empty NEVRA name and no destination directory specified.")
-			os.Exit(1)
-		}
-
-		destDir = nevra.Name
+		name := strings.TrimSuffix(filepath.Base(rpmPath), ".rpm")
+		name = strings.TrimSuffix(name, ".src")
+		destDir = filepath.Join(filepath.Dir(rpmPath), name)
 	}
 
 	if _, err := os.Stat(destDir); err == nil {
 		fmt.Printf("Error: Destination already exists: %s\n", destDir)
 		os.Exit(1)
 	}
+
+	fmt.Printf("Extracting to directory: %s\n", destDir)
 
 	if err := rpm.ExpandPayload(destDir); err != nil {
 		fmt.Printf("Error expanding package: %s\n", err)
