@@ -4,14 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/op/go-logging"
 	"github.com/sassoftware/go-rpmutils"
 )
-
-func init() {
-	// Reduce default verbosity of rpmutils
-	logging.SetLevel(logging.WARNING, "cpio")
-}
 
 func usage() {
 	fmt.Println("Usage: rpmx <src_file> [dest_dir]")

@@ -1,4 +1,0 @@
-package: github.com/brandt/rpmx
-import:
-- package: github.com/op/go-logging
-- package: github.com/sassoftware/go-rpmutils
