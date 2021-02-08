@@ -24,7 +24,7 @@ If a destination isn't specified, the contents will be extracted to a directory 
 
     rpmx ./foo-1.0.5-1.el7.src.rpm
 
-If an output directory isn't specified, `rpmx` will lookup the name specified in the RPM's header and create a new directory with that name.
+If an output directory isn't specified, `rpmx` will use the name of the RPM being extracted minus the `.rpm`/`.src.rpm` extension.
 
     rpmx ./foo.rpm /tmp/output
 
